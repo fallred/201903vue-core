@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!--v-on:input="fn()"-->
+        <input type="text" :value="msg"  @input="fn($event,1)">
+        {{msg}}
+        <input type="text" :value="msg1"  @input="(e)=>{msg1=e.target.value}">
+        {{msg1}}
+        <!--v-model是 @input + :value的一个语法糖-->
+        <input type="text" v-model="msg2"/>
+        {{msg2}}
+
+        <!--select radio checkbox-->
+        <select v-model="selectValue" multiple>
+            <option value="0" disabled>请选择</option>
+            <option v-for="(list,key) in lists" :value="list.id">{{list.value}}</option>
+        </select>
+        {{selectValue}}
+        <br/>
+        <!--radio可以根据v-model来进行分组-->
+        男：<input type="radio" v-model="radioValue" value="男">
+        <br/>
+        女：<input type="radio" v-model="radioValue" value="女">
+        <br/>
+        {{radioValue}}
+
+        <input type="checkbox" v-model="checkValue"/> {{checkValue}}
+        <br/>
+
+        游泳：<input type="checkbox" v-model="checkValues" value="游泳"/>
+        唱歌：<input type="checkbox" v-model="checkValues" value="唱歌"/>
+        {{checkValues}}
+
+        <!--修饰符 .number .trim -->
+        <input type="text" v-model.number="val"> {{typeof val}}
+
+        <input type="text" @keyup.13="fn3" >
+        <!--属性绑定， v-bind: 绑定样式 class style 对象-->
+        <div class="abc" :class="{b:true}">
+            你好1
+        </div>
+        <div class="abc" :class="['a','b',c]">
+            你好2
+        </div>
+        <div style="color:red;" :style="{backgroundColor:'blue'}">xxx1</div>
+        <div style="color:red;" :style="[{backgroundColor:'red',color:'blue'}]">xxx2</div>
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        // 双向绑定，单向数据变化 视图更新 双向
+        // 视图更新也会影响数据变化
+        let vm = new Vue({
+            // el: '#app',
+            data: {
+                msg: 'hello',
+                msg1: 'hello',
+                msg2: 'hello',
+                selectValue: [],
+                radioValue: '男',
+                checkValue: true,
+                checkValues: [],
+                lists: [{value: '菜单1',id: 1},{value: '菜单2',id: 2},{value: '菜单3',id: 3}],
+                // fn:function(){
+                //     // data 里不要放fn，this指向window
+                //     console.log(this);
+                //     console.log('xxx');
+                // }
+                val: 0,
+                c:'d'
+            },
+            methods:{
+                fn(e,a){
+                    // data 里不要放fn，this指向window
+                    // 箭头函数this指向window
+                    // console.log(this);
+                    // console.log('xxx');
+                    this.msg = e.target.value;
+                    console.log(a);
+                },
+                fn3(e){
+                    alert('ff');
+                }
+            }
+        }).$mount('#app');
+        // 单元测试 $mount挂载到虚拟dom
+        // let div = document.createElement('DIV');
+
+       // .ctrl .esc .enter
+        // 配置一个code别名
+        Vue.config.keyCodes = {
+            'f1':112
+        }
+    </script>
+</body>
+</html>
