@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{arr}}
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <!--mvvm:model view viewmodel-->
+    <!--mvvc:model view controller-->
+    <script>
+        let vm = new Vue({
+            el:'#app',
+            // template:'<h1>hello world</h1>',
+            data: {
+                msg: 'hello',
+                info: {xxx: 'xxx'},
+                arr:[1,2,3,4]
+            }            
+        });
+        // console.log(vm.msg);
+        // vm.info.xxx = 'hello';
+        // info对象里面没有address属性，不会触发更新
+        // vm.info.address = 'world';
+
+        // vm.info = {address:'回龙观'};
+        // vm.info.address = 'hello';
+
+        // 把数据代理给了vm
+        // vm.$set(vm.info,'address','zf');
+
+        vm.arr.push(5);
+        // 数据变化后更新视图操作是异步执行的
+        vm.arr = [2,3,4,6,9];
+        
+        vm.$nextTick(()=>{
+            //vue 实例上的方法
+            console.log(vm.$el.innerHTML);
+            console.log(vm.$options);
+        });
+
+        vm.$watch('info.xxx',function(newVal,oldVal){
+            console.log('info.xxx watch=>',newVal,oldVal);
+        });
+        // 多次更新值触发一次
+        vm.info.xxx = 'hello';
+        vm.info.xxx = 'bbb';
+    </script>
+</body>
+</html>
