@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app" >
+        <button @click="flag=!flag">显示</button>
+        <div v-if="flag">
+            <input type="text" v-model="msg" v-split.3="msg" v-focus>
+        </div>
+    </div>
+    <div id="app1"></div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        // 指令 全局
+        /*
+        Vue.directive('split',function(el,bindings,vnode){
+            // let val = el.value.slice(0,3);
+            // 获取当前输入框所在的上下文
+            let ctx = vnode.context;
+            // 去当前上下文中 获取 msg变量，把输入的内容 截取3个 放到msg中
+            console.log(el, bindings, vnode);
+            ctx[bindings.expression] = el.value.slice(0,3);
+        });
+        
+        // 默认函数行驶 = update + bind;
+        Vue.directive('split',{
+            update(el,bindings,vnode){
+                console.log('update');
+                // 只当用户绑定指令时生效
+                // 获取当前输入框所在的上下文
+                let ctx = vnode.context;
+                // 去当前上下文中 获取 msg变量，把输入的内容 截取3个 放到msg中
+                ctx[bindings.expression] = el.value.slice(0,3);
+            },
+            bind(el,bindings,vnode){// 只当用户绑定指令时生效
+                // 获取当前输入框所在的上下文
+                let ctx = vnode.context;
+                // 去当前上下文中 获取 msg变量，把输入的内容 截取3个 放到msg中
+                ctx[bindings.expression] = el.value.slice(0,3);
+            }
+        });
+        */
+        Vue.directive('focus',{
+            /*bind(el){
+                Vue.nextTick(()=>{
+                    // 这个时机会比bind晚一些 只有dom渲染完后执行
+                    el.focus();
+                });
+            },*/
+            // 这个时机会比bind晚一些 只有dom渲染完后执行
+            inserted(el){
+                el.focus();
+            }
+        });
+        Vue.directive('split',{
+            update(el,bindings,vnode){
+                let ctx = vnode.context;
+                el.value = ctx[bindings.expression];
+            },
+            bind(el,bindings,vnode){ // 只当用户绑定指令时生效
+                let ctx = vnode.context;
+                let [,len] = bindings.rawName.split('.');// {2:true}
+                el.addEventListener('input',(e)=>{
+                    // 输入框中的内容
+                    let val = e.target.value;
+                    ctx[bindings.expression] = val;
+                    el.value = val;
+                });
+                // 赋予默认值
+                // el.value = ctx[bindings.expression].slice(0,3);
+                el.value = ctx[bindings.expression];
+            }
+        });
+        let vm = new Vue({
+            el:'#app',
+            data: {
+                msg: 'a345',
+                flag: true
+            }
+        });
+ </script>
+</body>
+</html>

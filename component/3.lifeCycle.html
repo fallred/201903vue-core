@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            data: {
+                a: 1
+            },
+           beforeCreate(){
+               // 钩子函数， beforeXXX xxxed
+               // 初始化自己的生命周期，并且绑定自己的事件
+               console.log(this,this.$data);
+           },
+           created(){
+               // 如果想调用ajax
+               // 可以获取数据和调用方法
+            //    console.log(this.$data,this.$el.innerHTML);
+               console.log(this,this.$data);
+            },
+           // 第一次调用渲染函数之前
+           beforeMount(){
+               console.log('渲染前');
+           },
+           mounted(){
+               // 获取真实dom,
+               // 一般获取数据在这里
+               console.log('渲染后', this.$el.innerHTML);
+                this.a = 100;
+                this.timer = setInterval(()=>{},1000);
+            },
+           beforeUpdated(){
+               console.log('更新前');
+               this.b = 200;
+           },
+           updated(){
+               // 一般不要操作数据，可能会导致死循环
+               console.log('更新后');
+           },
+           beforeDestroy(){
+               // 当前实例还可以用
+               clearInterval(this.timer);
+               console.log('销毁前');
+           },
+           destroyed(){
+               // 实例上的方法，监听都被移除掉
+               console.log('销毁后');
+           }
+        });// 第一种 路由切换 手动销毁
+        vm.$destroy();
+    </script>
+</body>
+</html>

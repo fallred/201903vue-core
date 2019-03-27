@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!--组件化 开发的优点 方便协作 方便维护 复用 （数据根据传入的数据展示）-->
+    <!--组件的定义方式 一共有两种 全局组件 局部组件-->
+    <div id="app">
+        <template v-for="i in 3">
+            <div ref="my">我的dom元素</div>
+        </template>
+        <my-component ref="mycom"></my-component>
+
+    </div>
+    <div id="app1"></div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        // 组件交互 7种
+        // props emit v-bind="$attrs" v-on="$listeners"
+        // $parent $child $refs => ref
+
+        //ref 不能给多个元素设置相同的ref， 否则只识别一个
+        // 如果遇到循环，就是多个元素，数组的形式
+        // 如果给组件增加ref 那么可以获取组件的实例，调用实例上的方法，（一些常见的库，就是通过这种方式，暴露一些方法）
+        let vm = new Vue({
+            el: '#app',
+            mounted(){
+                console.log(this.$refs.my);
+                console.log(this.$refs.mycom.show);
+            },
+            components: {
+                'MyComponent':{
+                    methods:{
+                        show(){
+                            alert(1);
+                        }
+                    },
+                    template: `<div>my-component</div>`
+                }
+            }
+        });
+
+        // 过滤器，
+        // 指令 v-model v-html v-text {{}} v-clock v-if v-else v-show v-pre
+        // 想在输入框输入的内容的长度不能超过3个
+ 
+ </script>
+</body>
+</html>

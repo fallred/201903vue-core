@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .title {
+            width: 100px;
+            height:35px;
+            border: 1px solid red;
+            line-height: 35px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <collapse>
+            <!--v-slot="hello" == #hello-->
+            <!-- <template v-slot="hello"> -->
+                <collapse-item title="react">内容1</collapse-item>
+                <collapse-item title="vue">内容2</collapse-item>
+                <collapse-item title="node">内容3</collapse-item>
+            <!-- </template> -->
+        </collapse>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        // 平级通信 $parent 获取父组件的实例 $children获取所有的儿子
+        Vue.component('Collapse',{
+            methods: {
+                cut(chidId){
+                    // 只要儿子点击了 我就要知道当前点击的是谁
+                    // alert(chidId);
+                    this.$children.forEach(child=>{
+                        if(child._uid !== chidId){
+                            child.show = false;
+                        }
+                    })
+                }
+            },
+            template: `<div class="wrap">
+                <slot></slot>    
+            </div>`
+        });
+        Vue.component('CollapseItem',{
+            props: ['title'],
+            data(){
+                return {show: false}
+            },
+            methods: {
+                change(){
+                    console.log(this);
+                    this.show = !this.show;
+                    this.$parent.cut(this._uid);
+                }
+            },
+            template: `<div>
+                <div :id="'title'+_uid" class="title" @click="change">{{title}}</div>
+                <div v-show="show">
+                    <slot></slot>    
+                </div>
+            </div>`
+        });
+        // 手风琴效果，折叠菜单效果
+        let vm = new Vue({
+            el: '#app'
+        });
+    </script>
+</body>
+</html>

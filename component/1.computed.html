@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- {{getFullName()}} -->
+        {{ fullName }}
+        {{ msg }}
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        /**
+         *  computed和method的区别
+         *  computed有缓存，method无缓存
+         *  computed 和watch的区别
+         *  watch可以支持异步，watch可以实现简单的功能.//监听属性变化，调接口 
+         *  如果能用computed来实现，绝不用watch实现，
+         * 
+        */
+       
+
+        let vm = new Vue({
+            el: '#app',
+            data:{
+                firstName:'珠',
+                lastName: '峰',
+                msg: 'hello',
+                fullName: ''
+            },
+            mounted(){
+                this.getFullName();
+            },
+            watch: {//vm.$watch
+                firstName(newVal){
+                    // this.fullName = this.firstName + this.lastName;
+                    setTimeout(()=>{
+                        this.getFullName();
+                    },1000);
+                },
+                lastName(){
+                    this.getFullName();
+                },
+                aa: {
+                    handler(newVal){
+                        this.getFullName();
+                    },
+                    // immediate:true
+                }
+            },
+            /*
+            computed: {
+                // Object.defineProperty来实现
+                fullName(){
+                    // 其他数据改动，不会触发该方法，
+                    // 相当于get方法，有缓存，如果值没有更改，会从缓存中取值
+                    console.log('computed');
+                    return this.firstName + this.lastName;
+                }
+            },
+            */
+            methods:{
+                getFullName(){
+                    // 只要有数据变化，就会触发
+                    // console.log('哈哈');
+                    // return this.firstName + this.lastName
+                    this.fullName = this.firstName + this.lastName;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

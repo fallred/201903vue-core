@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!--组件化 开发的优点 方便协作 方便维护 复用 （数据根据传入的数据展示）-->
+    <!--组件的定义方式 一共有两种 全局组件 局部组件-->
+    <div id="app">
+        <my-button></my-button>
+        <my-button></my-button>
+        <my-button></my-button>
+    </div>
+    <div id="app1"></div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        // Vue.component('my-button',{
+        //     data(){
+        //         return {
+        //             msg: '点我啊'
+        //         };
+        //     },
+        //     template:'<button>{{msg}}</button>'
+        // });
+
+        let vm = new Vue({// 根实例
+            el:'#app',
+            components: {
+                'MyButton': {
+                    data(){
+                        return {
+                            msg: '点我啊'
+                        };
+                    },
+                    template: `<button>{{msg}}</button>`
+                }
+            }
+        });
+        // 组件交互 7种
+    </script>
+</body>
+</html>
