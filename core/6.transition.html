@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="node_modules/animate.css/animate.css">
+    <link rel="stylesheet" href="../node_modules/animate.css/animate.css">
     <style>
         .box {
             width:100px;
@@ -43,10 +43,11 @@
             只有dom从显示到隐藏，或者隐藏到显示，才能使用vue的动画
         -->
         <button @click="flag=!flag">切换</button>
-        <transition name="jw">
+        <transition enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutDown">
             <div class="box" v-show="flag">
                 我爱你
             </div>
+            <div v-for="a in arr">{{a}}</div>
         </transition>
     </div>
     <script src="../node_modules/vue/dist/vue.js"></script>
@@ -54,8 +55,9 @@
         let vm = new Vue({
             el:'#app',
             data: {
-                flag: true
-            }
+                flag: true,
+                arr: [1,2,3,4]
+            },
         });
     </script>
 </body>
