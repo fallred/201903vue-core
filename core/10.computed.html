@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../node_modules/animate.css/animate.css">
+    <style>
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="a" >
+        {{msg}}
+        <!--根据输入框中的内容，算出一个错误信息-->
+        <!--当给a赋值的时候影响错误信息的改变-->
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //异步用watch
+        // computed只要依赖的值有变化就会刷新
+       /*let vm = new Vue({
+           el:'#app',
+           computed: {
+               a: {
+                   // 如果写了set方法，并且val给了别人，那当前的a就不会被赋予结果了。
+                    get(){
+                        return this.msg;
+                    },
+                    set(val){
+                        this.msg=val;
+                    }
+               }
+           },
+           data: {
+              msg:''
+           }
+       });*/
+       let vm = new Vue({
+           el:'#app',
+           computed: {
+            // computed默认调用get方法，必须要有return
+            // computed不支持异步
+
+            //    msg(){
+            //       if (this.a.length < 3) {
+            //           return '少了';
+            //       }
+            //       if (this.a.length > 6) {
+            //           return '多了';
+            //       }
+            //       return '';
+            //   }
+           },
+           data: {a:'',msg:''},
+           watch:{
+               // 监听a的值
+               a(newVal,oldVal){
+                   setTimeout(()=>{
+                             if (this.a.length < 3) {
+                                  return this.msg = '少了';
+                              }
+                              if (this.a.length > 6) {
+                                return this.msg = '多了';
+                              }
+                              this.msg = '';
+                   },2000);
+               }
+           }
+       });
+    </script>
+</body>
+</html>
+

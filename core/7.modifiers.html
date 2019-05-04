@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../node_modules/animate.css/animate.css">
+    <style>
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div @click.capture.stop="parent">parent
+            <div @click.capture="child">child
+                <div @click="grandson">grandson</div>
+            </div>
+        </div>
+        <a href="http://www.baidu.com" @click.prevent="parent">去珠峰</a>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        /*
+        @click.stop stopPropagation ,cancelBubble=true阻止事件传播，从下到上，子传父
+        @click.capture xxx.addEventListener('click',fn,true)事件捕获,从上到下，父传子
+        @click.prevent preventDefault,returnValue=false
+        @click.once只触发一次
+        e.srcElement e.target 事件源
+        @click.self 判断事件源绑定事件
+        */
+        let vm = new Vue({
+            el:'#app',
+            methods:{
+                parent(){
+                    alert('parent');
+                },
+                child(){
+                    alert('child');
+                },
+                grandson(e){
+                    alert('grandson');
+                    // e.cancelBuddle=true;
+                    // e.stopPropagation();
+                }
+            },
+            data: {
+            },
+        });
+    </script>
+</body>
+</html>
+
