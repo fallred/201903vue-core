@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="radio" v-model="radio" value="home">home
+        <input type="radio" v-model="radio" value="list">list
+        <keep-alive>
+            <component :is="radio"></component>
+        </keep-alive>
+    </div>
+    </template>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let home = {
+            template: '<div>home</div>',
+            mounted() {
+                alert('home 挂载');
+            },
+            beforeDestroy() {
+                alert('home销毁');
+            },
+        };
+        let list = {
+            template: '<div>list</div>',
+            mounted() {
+                alert('list 挂载');
+            },
+            beforeDestroy() {
+                alert('list销毁');
+            },
+        };
+        let vm = new Vue({
+            el: '#app',
+            
+            data: {
+                radio:'home'
+            },
+            methods: {
+            },
+            components: {
+                home,
+                list
+            }
+        });
+    </script>
+</body>
+</html>

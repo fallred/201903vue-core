@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- <link ref="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css"> -->
+    <link ref="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div id="app">
+
+        <panel :type="article.type" @say-title="parent" v-for="(article, index) in articles" :key="index">
+            <div slot="title"><span v-html="article.title"></span></div>
+            <div slot="content">
+               {{article.content}}
+            </div>
+            <div v-if="article.auth">
+                {{article.auth}}
+            </div>
+        </panel>
+    </div>
+    <template id="panel">
+        <div class="panel" :class="[color]">
+            <div class="panel-heading" ref="head">
+                <slot name="title"></slot>
+            </div>
+            <div class="panel-body">
+                <slot name="content"></slot>
+            </div>
+            <div class="panel-footer">
+                <slot name="default">匿名</slot>
+                <button @click="say">点我说标题</button>
+            </div>
+        </div>
+    </template>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let panel = {
+            template: '#panel',
+            created() {
+                // console.log(this.type);
+            },
+            methods: {
+                say(){
+                    this.$emit('say-title',this.$refs.head.innerText);
+                }
+            },
+            computed: {
+                color() {
+                    return 'panel-' + this.type;
+                }
+            },
+            props:{
+                type: {// this.type = 'primary' 子不能修改父组件传递的属性
+                    type: [String],
+                    default: 'default'
+                }
+            }
+        };
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                articles: [{
+                    type: 'warning',
+                    title: '<h2>vue</h2>',
+                    content: '这是vue的文章',
+                    auth: '作者：zfpx'
+                },{
+                    type: 'primary',
+                    title: '<h2>react</h2>',
+                    content: '这是react的文章'
+                },{
+                    type: 'danger',
+                    title: '<h2>angular</h2>',
+                    content: '这是angular的文章'
+                }]
+            },
+            methods: {
+                parent(tit){
+                    alert(tit);
+                }
+            },
+            components:{
+                panel
+            }
+        });
+    </script>
+</body>
+
+</html>

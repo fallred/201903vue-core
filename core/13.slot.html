@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <modal m="1"><a href=“http://www.zhufengpeixun.com”>去珠峰</a><h1 slot="title">是否删除？</h1><p slot="content" @click="fn">亲确认删除吗？</p><a href=“http://www.zhufengpeixun.com”>去珠峰</a></modal>
+        <modal><span>是否确认？</span></modal>
+        <modal></modal>
+    </div>
+    <!--模版中只能有一个根元素-->
+    <!--slot中可以放置一些默认到内容，如果传递了内容则替换掉-->
+    <template id="modal">
+        <div>
+            <!-- <h1>是否删除？</h1> -->
+            <slot name="title">默认标题</slot>
+            <slot name="content">默认内容</slot>
+            <slot name="default">这是一个默认标题</slot>
+        </div>
+    </template>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let modal = {
+            template: '#modal'
+        };
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                money: 400
+            },
+            methods: {
+                fn(){
+                    
+                }
+            },
+            components: {
+                modal
+            }
+        });
+    </script>
+</body>
+</html>

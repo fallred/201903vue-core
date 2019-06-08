@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button></button>
+        <loading ref="load"></loading>
+    </div>
+    </template>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let loading = {
+            data(){
+                return {
+                    flag: true
+                };
+            },
+            template: '<div v-show="flag">疯狂加载中...</div>',
+            methods: {
+                hide(){
+                    this.flag = false;
+                }
+            },
+        };
+        let vm = new Vue({
+            el: '#app',
+            mounted() {
+                // ref 如果放在组件上 获取到的是组件的实例 并不是组件的dom元素
+                // this.$refs.load.hide();
+                this.$ref.load.$el.style.background = 'red';
+            },
+            data: {
+            },
+            methods: {
+            },
+            components: {
+                loading
+            }
+        });
+    </script>
+</body>
+</html>
