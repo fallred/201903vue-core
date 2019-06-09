@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .active {
+        color: red;
+    }
+    </style>
+</head>
+<body>
+    <!--hash模式 & h5的history.pushState-->
+    <!--hash 开发时使用，不会导致404，hash方式不支持seo。上线后使用history-->
+    <div id="app">
+        <!-- <a href="#/home">首页</a>
+        <a href="#/list">列表</a> -->
+        <router-link to="/home" tag="button">首页</router-link>
+        <router-link to="/list" tag="button">列表页</router-link>
+        <router-view></router-view>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        let home = {
+            template: '<div>首页</div>'
+        };
+        let list = {
+            template: '<div>列表页</div>'
+        };
+        // 路由的映射表，配置路径和组件的关系
+        let routes = [{
+            path: '/home',
+            component: home
+        }, {
+            path: '/list',
+            component: list
+        }];
+        // 引入vue-router自带VueRouter类
+        let router = new VueRouter({
+            routes,
+            linkActiveClass: 'active',
+            // mode:'history'
+        });
+        let vm = new Vue({
+            el: '#app',
+            router
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .active {
+        color: red;
+    }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <router-link :to="{path:'/home'}" >首页</router-link>
+        <router-link :to="{path:'/detail'}">详情页</router-link>
+        <router-view></router-view>
+    </div>
+    <template id="detail">
+        <div>
+            <router-link to="/detail/profile">个人中心</router-link>
+            <router-link to="/detail/about">关于我</router-link>
+            <router-view></router-view>
+        </div>
+    </template>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        let home = {
+            template: '<div>home</div>',
+            methods: {
+                toList(){
+                    // 强制跳转路径
+                    // this.$router.push('/list');
+                    // 路由替换，将当前的历史替换掉
+                    // this.$router.replace('/list');
+                }
+            },
+        };
+        let detail = {
+            template: '#detail',
+        };
+        let profile = {template: '<div>profile</div>'};
+        let about = {template: '<div>about</div>'};
+        let routes = [{
+            path: '',
+            component: home
+        }, {
+            path: '/home',
+            component: home
+        }, {
+            path: '/detail',
+            component: detail,
+            children: [// children 中的路径永远不带，如果带/表示是1级路由
+                {path: 'profile',component:profile},
+                {path: 'about',component:about}
+            ]
+        }];
+        // 引入vue-router自带VueRouter类
+        let router = new VueRouter({
+            routes,
+        });
+        let vm = new Vue({
+            el: '#app',
+            router
+        });
+    </script>
+</body>
+</html>

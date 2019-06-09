@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../node_modules/animate.css/animate.css">
+</head>
+<body>
+    <div id="app">
+        <router-link to="/home">首页</router-link>
+        <router-link to="/list">列表</router-link>
+        <transition
+            enter-active-class="animated fadeIn"
+            leave-acive-class="animated fadeout"
+            mode="out-in"
+        >
+            <keep-alive>
+                <router-view style="position:absolute;top:0;left:0;width:100%;"></router-view>
+            </keep-alive>
+        </transition>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        let home = {template:'<div style="background:red">home</div>',beforeDestroy() {
+            alert('xiaohuis');
+        },};
+        let list = {template:'<div style="background:green">list</div>'};
+        let routes = [
+            {path:'/home',component:home},
+            {path:'/list',component:list}
+        ];
+        let router = new VueRouter({
+            routes
+        });
+        let vm = new Vue({
+            el:'#app',
+            router
+        });
+    </script>
+</body>
+</html>

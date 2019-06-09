@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       <router-link :to="{name:'pro',params:{c:1,a:2}}">商品1</router-link>
+       <router-link to="/article/2/a">商品2</router-link>
+       <router-link to="/article/3/a">商品3</router-link>
+       <router-view></router-view>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        let article = {
+            template: '<div>第{{$route.params.c}}篇文章</div>',
+            created() {
+                // alert('获取ajax');
+            },
+            // beforeUpdate() {
+                
+            // },
+            // 路径参数发送变化，监控参数的变化来发送ajax
+            watch: {
+                $route(){
+                    alert('请求ajax');
+                }
+            }
+        };
+        let routes = [
+            {path: '/article/:c/a', component: article, name:'pro'}
+        ];
+        let router = new VueRouter({
+            routes
+        });
+        let vm = new Vue({
+            el: '#app',
+            data: {},
+            router
+        });
+    </script>
+</body>
+</html>
